@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const usernameVariants = [
     "Haibdos", 
-    "Văn Hải"
+    "ᴠăɴ ʜảɪ"
   ];
   
   let currentText = '';

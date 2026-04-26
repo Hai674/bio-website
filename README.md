@@ -1,50 +1,124 @@
-# Self-Hosted Bio Website
+# Future Self 2066 — 40-Year Self Development System
 
-This project is a customizable self-hosted bio webpage template where users can share links to their profiles or any other content, accompanied by background music and video. It's designed to provide a personalized online presence with a unique aesthetic.
+A browser-first personal website platform combining:
+
+- **Dashboard analytics** (Chart.js)
+- **Habit tracking** with streaks
+- **Interactive force-directed mindmap** (D3)
+- **Cloud persistence** with Firestore (with local cache fallback)
+
+Built with **React + Vite + Zustand + TailwindCSS + Firebase**.
 
 ## Features
 
-- **Customizable Content:** Users can personalize their bio with their profile picture, username, user description, and links to their preferred platforms (e.g., Discord, GitHub, Tiktok).
-  
-- **Background Music and Video:** The webpage includes options for background music and video to enhance the user experience. Users can set their preferred audio and video content to play automatically when someone visits their bio.
+### Core modules
 
-- **Terminal-Like Interface:** The template incorporates a terminal-like interface for a distinctive and interactive design. It includes buttons for control (close, minimize, maximize) to add to the aesthetic and potentially provide future functionality.
+- **Dashboard**
+  - Current date
+  - Main goals summary
+  - Habit streak summary
+  - Total completed habits
+  - Mindmap node count
+  - 7-day analytics chart
 
-## Usage
+- **Habit Tracking**
+  - Create/edit/delete habits
+  - Daily completion toggle
+  - Auto streak calculation
+  - Progress bars
+  - Optional link to a mindmap node
 
-1. **Setup:**
-   - Clone or download the repository to your local machine.
-   - Customize the HTML, CSS, and JavaScript files according to your preferences. You can modify the content, styling, and functionality to reflect your personality and showcase your interests.
+- **Mindmap Planning**
+  - Force-directed graph simulation
+  - Drag-and-drop nodes
+  - Re-parenting by dropping onto another node
+  - Collision detection (`forceCollide`)
+  - Curved (Bezier-like quadratic) links
+  - Zoom + pan (mouse/touch via D3 zoom)
+  - Double-click empty canvas to create node
+  - Node inspector for edit/delete/link/collapse
 
-2. **Add Content:**
-   - Replace the default profile picture (`default.jpg`) with your own picture.
-   - Update the username and user description in the HTML file (`index.html`) to reflect your identity and interests.
-   - Add links to your preferred platforms in the HTML file. You can modify the existing links or add new ones based on your online presence.
+### Design
 
-3. **Background Music and Video:**
-   - Replace the default audio and video files in the `assets/music` and `assets/back` directories, respectively, with your own audio and video content.
-   - Ensure that your audio and video files are in the correct formats and adjust the `<source>` tags in the HTML file accordingly.
+- Dark futuristic UI (`#020617`)
+- Neon accent (`#6366f1`)
+- Glassmorphism surfaces
+- Responsive sidebar + content layout
+- Floating quick-action button
 
-4. **Hosting:**
-   - Host the modified files on your preferred web hosting service or server to make your bio webpage accessible online.
-   - Ensure that your hosting service supports HTML, CSS, JavaScript, and multimedia file formats for proper functionality.
+## Project structure
 
-5. **Share Your Bio:**
-   - Once your bio webpage is live, share the URL with friends, followers, or anyone interested in learning more about you.
-   - Encourage visitors to explore your bio, listen to the background music, and watch the background video while discovering your online presence through the provided links.
+```txt
+src/
+  components/
+    dashboard/
+    habits/
+    layout/
+    mindmap/
+  firebase/
+  pages/
+  store/
+  utils/
+```
 
-## Contributors
+## Getting Started
 
-- [c0mplex](https://www.facebook.com/enou456/) - Creator and maintainer
+### 1) Install dependencies
 
-## License
+```bash
+npm install
+```
 
-This project is licensed under the [MIT License](LICENSE). Feel free to customize and use it according to your needs. Contributions are welcome!
+### 2) Configure Firebase
 
-## Previews
+Create a `.env` file in project root:
 
-[Demo Site](https://c0mplex.site)
+```bash
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+```
 
-![image](https://i.postimg.cc/524RpJKb/1.png)
+If env values are missing, the app still works using **localStorage fallback**.
 
-![image](https://i.postimg.cc/3wWb5BHq/2.png)
+### 3) Firestore collections
+
+Create collections in Firestore:
+
+- `mindmap`
+- `habits`
+- `progress` (reserved for future expansion)
+
+### 4) Run locally
+
+```bash
+npm run dev
+```
+
+Open: `http://localhost:5173`
+
+### 5) Production build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Deploy to Vercel
+
+1. Push repository to GitHub.
+2. Import project in Vercel.
+3. Framework preset: **Vite**.
+4. Add all `VITE_FIREBASE_*` environment variables in Vercel project settings.
+5. Deploy.
+
+## Performance notes
+
+- D3 force simulation scoped to active visible nodes.
+- Collision and link forces tuned for smooth interactions.
+- Lightweight Zustand store for minimal rerenders.
+- Tailwind utility classes keep CSS bundle small.
+
